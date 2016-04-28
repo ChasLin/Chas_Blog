@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>视频播放器</title>
+	<style>
+	*{
+		margin:0px;padding:0px;
+	}
+	/*ul li{
+		width: 50px;height: 20px;
+		float: left;
+		list-style: none;
+		border: 1px solid #b4b4b4;
+		border-left:none;
+	}*/
+	#box{
+		width: 860px;height: 680px;
+		/*background: #f83;*/
+		background: url(images/mac.png) no-repeat;
+		background-size:100% 100%;/*背景尺寸*/
+		margin: 65px auto;
+		position: relative;
+	}
+	#tv{
+		width: 662px;
+		margin:82px 103px;
+	}
+	.btn{
+		position: absolute;
+		left:152px;top:492px;
+	}
+	button{
+		width: 80px; height: 40px; border-radius:20px;/*圆角指令*/
+		outline: none;/*去除轮廓*/font-size:15px;
+	}
+	button:hover{
+		background:#444;color:#fff;
+	}
+	#play:after{/*在盒子内容的后面添加内容*/
+		content:"";/*添加之内容*/			
+		width:18px; height:18px;
+		display:inline-block;/*行内块级元素*/
+		background: url(images/icon.png) no-repeat;
+		background-position:1px -2px;
+		margin-left:2px;
+		vertical-align:middle;
+	}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<video id="tv" src="video/jx3cgm.mp4" controls="controls">您的浏览器暂不支持video标签。播放视频</video>
+		<div class="btn">
+			<button type="button" id="play" onclick="play(this)">播 放</button>
+			<button onclick="FR()">快 退</button>
+			<button onclick="FF()">快 进</button>
+			<button onclick="lowervol()">音 量 -</button>
+			<button onclick="uppervol()">音 量 +</button>
+			<button onclick="mute(this)">静 音</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var tv = document.getElementById("tv");//获取video标签
+		var mark = true;//播放状态标记
+			tv.vol=1;
+		function play(obj){//自定义函数 控制视频的播放暂停
+			if(mark)//如果这里的mark为true，就执行其后的代码
+			{
+				tv.play();//播放视频
+				obj.innerHTML="暂 停";
+				mark = false;
+			}else{//否则就执行这里的代码
+				tv.pause();//暂停视频
+				obj.innerHTML="播 放";
+				mark = true;
+			}
+		}
+		function FR(){
+			tv.currentTime-=10;
+		}
+		function FF(){
+			tv.currentTime+=10;
+		}
+		function lowervol(){
+			tv.vol-=0.05;
+			/*if(tv.vol<=0){
+				tv.vol = 0;
+			}*/
+			tv.vol = Math.max(tv.vol,0);//对比判断选择最大值
+			tv.volume=tv.vol.toFixed(3);//取三位数字
+			//console.log(tv.volume);		
+		}
+		function uppervol(){
+			tv.vol+=0.05;
+			/*if(tv.vol>=1){
+				tv.vol = 1;
+			}*/
+			tv.vol = Math.min(tv.vol,1);//对比判断选择最小值
+			tv.volume = tv.vol.toFixed(3);//取三位数字
+			//console.log(tv.volume);
+		}
+		function mute(obj){
+			if(!tv.muted){
+				obj.innerHTML="开 音";
+				tv.muted=true;	
+			}else{
+				obj.innerHTML="静 音";
+				tv.muted=false;
+			}
+		}
+	</script>
+</body>
+</html>
